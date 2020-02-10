@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = 3000;
-var items = ["First item", "Second item", "Third item"];
+var items = [];
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
@@ -26,6 +26,6 @@ app.post("/", (req, res) => {
     res.redirect("/");
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log("Server is running on port " + port);
 });
