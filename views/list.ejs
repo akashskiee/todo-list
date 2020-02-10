@@ -5,17 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Todo list</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1><%= kindofDay %></h1>
-    <ul>
-        <% for(var i = 0; i < newListItems.length; i++){ %>
-        <li><%= newListItems[i] %></li>
-        <% } %>
-        <form action="/" method="post">
-        <input type="text" name="newItem" id="" autofocus>
-        <button type="submit">Add</button>
-        </form>
-    </ul>
+    <div class="box" id="heading">
+        <h1><%= kindofDay %></h1>
+    </div>
+    <div class="box">
+            <% for(var i = 0; i < newListItems.length; i++){ %>
+                <div class="item">
+                <input type="checkbox">
+                <p><%= newListItems[i] %></p>
+            </div>
+            <% } %>
+            <form class="item" action="/" method="post">
+                <input type="text" name="newItem" id="" placeholder="New Item" autocomplete="off" autofocus>
+                <button type="submit">+</button>
+            </form cla>
+</div>
+    
+        
+    
 </body>
 </html>
