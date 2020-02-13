@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="box" id="heading">
-        <h1><%= kindofDay %></h1>
+        <h1><%= listType %></h1>
     </div>
     <div class="box">
             <% for(var i = 0; i < newListItems.length; i++){ %>
@@ -18,10 +18,10 @@
                 <p><%= newListItems[i] %></p>
             </div>
             <% } %>
-            <form class="item" action="/" method="post">
+            <form class="item" action="<%= route %>" method="post">
                 <input type="text" name="newItem" id="" placeholder="New Item" autocomplete="off" autofocus>
                 <button type="submit">+</button>
-            </form cla>
+            </form>
 </div>
     
         
