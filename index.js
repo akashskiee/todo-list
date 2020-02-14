@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const getDate = require(__dirname + "/date.js");
 const app = express();
 const port = 3000;
 var items = [];
@@ -9,16 +10,11 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-    var today = new Date();
-    var options = {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long'
-    }
-    var day = today.toLocaleDateString('en-IN', options);
+year = getDate.getYear();
 
-    res.render('list', {listType: day, newListItems: items, route: "/"});
+app.get("/", (req, res) => {
+    day = getDate.getDate();
+    res.render('list', {listType: day, year: year, newListItems: items, route: "/"});
 });
 
 app.post("/", (req, res) => {
@@ -27,8 +23,11 @@ app.post("/", (req, res) => {
     res.redirect("/");
 });
 
+//Test without routing the action page for performance
+
 app.get("/work", (req,res) => {
-    res.render('list', {listType: "Work List", newListItems: workItems, route: "/work"});
+    
+    res.render('list', {listType: "Work List", year: year, newListItems: workItems, route: "/work"});
 });
 
 app.post("/work", (req, res) => {
