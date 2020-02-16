@@ -14,20 +14,25 @@ year = getDate.getYear();
 
 app.get("/", (req, res) => {
     day = getDate.getDate();
-    res.render('list', {listType: day, year: year, newListItems: items, route: "/"});
+    res.render('list', {listType: day, year: year, newListItems: items});
 });
 
 app.post("/", (req, res) => {
     var newItem = req.body.newItem;
+    if(req.body.list === "Work"){
+        workItems.push(workItem);
+        res.redirect("/");
+    } else {
     items.push(newItem);
     res.redirect("/");
+    }
 });
 
 //Test without routing the action page for performance
 
 app.get("/work", (req,res) => {
     
-    res.render('list', {listType: "Work List", year: year, newListItems: workItems, route: "/work"});
+    res.render('list', {listType: "Work List", year: year, newListItems: workItems});
 });
 
 app.post("/work", (req, res) => {

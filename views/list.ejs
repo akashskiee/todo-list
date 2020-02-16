@@ -9,9 +9,9 @@
                 <p><%= newListItems[i] %></p>
             </div>
             <% } %>
-            <form class="item" action="<%= route %>" method="post">
+            <form class="item" method="post">
                 <input type="text" name="newItem" id="" placeholder="New Item" autocomplete="off" autofocus>
-                <button type="submit">+</button>
+                <button type="submit" value="<%= listType %>" name="list">+</button>
             </form>
 </div>
     
