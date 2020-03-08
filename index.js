@@ -17,13 +17,30 @@ const itemSchema = {
 
 const Item = mongoose.model("Item", itemSchema);
 
+const item1 = new Item ({
+    name: "First Item"
+});
+
+const item2 = new Item ({
+    name: "Second item"
+});
+
+const defaultItems = [item1, item2];
+
 year = getDate.getYear();
 
 app.get("/", (req, res) => {
 
     Item.find({}, (err, result) => {
-        if(err){
-            console.log(err);        
+        if(result.length === 0){
+            Item.insertMany(defaultItems, (err) => {
+                if(err){
+                    console.log(err);                    
+                } else {
+                    console.log("Successfully added");                    
+                }
+                res.redirect("/");
+            });
         } else{
                 day = getDate.getDate();
                 res.render('list', {listType: day, year: year, newListItems: result});    
@@ -34,14 +51,13 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    var newItem = req.body.newItem;
-    if(req.body.list === "Work"){
-        workItems.push(workItem);
-        res.redirect("/");
-    } else {
-    items.push(newItem);
+    const itemName = req.body.newItem;
+    
+    const item = new Item({
+        name: itemName
+    });
+    item.save();
     res.redirect("/");
-    }
 });
 
 //Test without routing the action page for performance
