@@ -73,6 +73,18 @@ app.post("/work", (req, res) => {
     res.redirect("/work");
 });
 
+app.post("/delete", (req, res) => {
+    const id = req.body.checkbox;
+
+    Item.findByIdAndRemove(id, (err) => {
+        if(err) {
+            console.log(err);            
+        } else {
+            res.redirect("/");
+        }
+    });
+});
+
 app.get("/about", (req, res) => {
     res.render("about");
 });
