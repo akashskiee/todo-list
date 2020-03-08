@@ -2,19 +2,35 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const getDate = require(__dirname + "/date.js");
 const app = express();
+const mongoose = require("mongoose");
 const port = 3000;
-var items = [];
-var workItems = [];
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
+mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true});
+
+const itemSchema = {
+    name: String
+};
+
+const Item = mongoose.model("Item", itemSchema);
+
 year = getDate.getYear();
 
 app.get("/", (req, res) => {
-    day = getDate.getDate();
-    res.render('list', {listType: day, year: year, newListItems: items});
+
+    Item.find({}, (err, result) => {
+        if(err){
+            console.log(err);        
+        } else{
+                day = getDate.getDate();
+                res.render('list', {listType: day, year: year, newListItems: result});    
+        }
+    });
+
+    
 });
 
 app.post("/", (req, res) => {
