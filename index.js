@@ -43,11 +43,9 @@ app.get("/", (req, res) => {
             });
         } else{
                 day = getDate.getDate();
-                res.render('list', {listType: day, year: year, newListItems: result});    
+                res.render('list', {listType: day, newListItems: result});    
         }
-    });
-
-    
+    }); 
 });
 
 app.post("/", (req, res) => {
@@ -62,10 +60,10 @@ app.post("/", (req, res) => {
 
 //Test without routing the action page for performance
 
-app.get("/work", (req,res) => {
+app.get("/:listName", (req, res) => {
+    res.render("list", {listType: req.params.listName, newListItems: [1,2]});
     
-    res.render('list', {listType: "Work List", year: year, newListItems: workItems});
-});
+})
 
 app.post("/work", (req, res) => {
     var workItem = req.body.newItem;
