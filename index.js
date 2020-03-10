@@ -27,6 +27,13 @@ const item2 = new Item ({
 
 const defaultItems = [item1, item2];
 
+const listSchema = {
+    name: String,
+    items: [itemSchema]
+};
+
+const List = mongoose.model("list", listSchema);
+
 year = getDate.getYear();
 
 app.get("/", (req, res) => {
@@ -60,18 +67,25 @@ app.post("/", (req, res) => {
     res.redirect("/");
 });
 
-//Test without routing the action page for performance
+app.get("/:listType", (req,res) => {
+    const listName = req.params.listType
 
-app.get("/work", (req,res) => {
+    const list = new List({
+        name: listName,
+        items: defaultItems
+    });
+
+    list.save()
+    List.find({}, (err, customList) => {
+        if(err){
+            console.log(err);            
+        } else {
+            res.render('list', {listType: listName, newListItems: customList});
+        }
+    });
     
-    res.render('list', {listType: "Work List", year: year, newListItems: workItems});
 });
 
-app.post("/work", (req, res) => {
-    var workItem = req.body.newItem;
-    workItems.push(workItem);
-    res.redirect("/work");
-});
 
 app.post("/delete", (req, res) => {
     const id = req.body.checkbox;
