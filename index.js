@@ -58,39 +58,43 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-    const itemName = req.body.newItem;
-    
+    const newItem = req.body.newItem;
+    console.log(newItem);
     const item = new Item({
-        name: itemName
+        name: newItem
     });
     item.save();
     res.redirect("/");
 });
 
 app.get("/:listType", (req,res) => {
-    const listName = req.params.listType
+    const listName = req.params.listType;
 
-    const list = new List({
-        name: listName,
-        items: defaultItems
-    });
-
-    list.save()
-    List.find({}, (err, customList) => {
-        if(err){
-            console.log(err);            
+    List.find({listName}, (err, results) => {
+        results.forEach(result => {
+        const testName = result.name;
+        
+        if(testName != listName){
+            const list = new List({
+                name: listName,
+                items: defaultItems
+            });
+        
+            list.save();
         } else {
-            res.render('list', {listType: listName, newListItems: customList});
+            console.log(testName)
         }
     });
-    
+    });
+
+        
 });
 
 
 app.post("/delete", (req, res) => {
     const id = req.body.checkbox;
 
-    Item.findByIdAndRemove(id, (err) => {
+    Item.findByIdAndRemove(id, {useFindAndModify: false}, (err) => {
         if(err) {
             console.log(err);            
         } else {
