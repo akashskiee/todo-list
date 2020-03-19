@@ -9,8 +9,10 @@
                 <input type="checkbox" name="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
                 <p><%= item.name %></p>
             </div>
+            <input type="hidden" name="hiddenListName" value="<%= listType %>">
+            </form>
             <% }); %>
-            <form class="item" method="post">
+            <form class="item" action="/"method="post">
                 <input type="text" name="newItem" id="" placeholder="New Item" autocomplete="off" autofocus>
                 <button type="submit" value="<%= listType %>" name="list">+</button>
             </form>
