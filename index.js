@@ -14,9 +14,11 @@ app.use(express.static("public"));
 const year = getDate.getYear();
 
 const dbUser = process.env.DB_USER;
-const dbPass = process.env.DB_PASS
+const dbPass = process.env.DB_PASS;
+const dbURL = 'mongodb+srv://' + dbUser + ':' + dbPass + '@cluster0-qnmpu.mongodb.net/todolistDB';
 
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0-qnmpu.mongodb.net/test?retryWrites=true&w=majority/todolistDB`, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+
+mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 const itemSchema = {
     name: String
@@ -79,6 +81,7 @@ app.post("/", (req, res) => {
             newFoundList.save();
             res.redirect("/" + btnListname);
         });
+       
     }
 });
 
